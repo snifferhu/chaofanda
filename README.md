@@ -11,9 +11,9 @@
 
 framework
 ---------
-java 8
-spring boot
-spring cloud
-mongodb
-redis
-netty
+- java 8
+- spring boot
+- spring cloud
+- mongodb
+- redis
+- netty
