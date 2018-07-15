@@ -1,0 +1,19 @@
+server:
+  port: 2333
+
+spring:
+  application:
+    name: eureka-service
+
+logging:
+  level:
+    com:
+      cfd: DEBUG
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+
+
+
