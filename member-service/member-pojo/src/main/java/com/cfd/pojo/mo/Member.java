@@ -1,14 +1,16 @@
 package com.cfd.pojo.mo;
 
+import com.google.common.collect.ImmutableList;
 import org.springframework.data.annotation.Id;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @auth snifferhu
  * @date 2018/7/15 13:46
  */
-public class Customer {
+public class Member {
     @Id
     private String id;
 
@@ -16,44 +18,78 @@ public class Customer {
 
     private String password;
 
+    private String nickName;
+
+    private List<String> authorities;
+
     private Integer status;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public Customer() {
+    public Member() {
     }
 
-    public Customer(String id, String userName, String password, Integer status, Date createTime, Date updateTime) {
+    public Member(String id, String userName, String password, String nickName, List<String> authorities, Integer status, Date createTime, Date updateTime) {
         this.id = id;
         this.userName = userName;
         this.password = password;
+        this.nickName = nickName;
+        this.authorities = authorities;
         this.status = status;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
 
-    public Customer(Customer other) {
+    public Member(Member other) {
         this.id = other.id;
         this.userName = other.userName;
         this.password = other.password;
+        this.nickName = other.nickName;
+        this.authorities = other.authorities;
         this.status = other.status;
         this.createTime = other.createTime;
         this.updateTime = other.updateTime;
     }
 
-    public static Customer createByUserName(String name){
-        Customer customer = new Customer();
-        customer.setUserName(name);
-        return customer;
+    public static Member createUserByUserName(String name){
+        Member member = new Member();
+        member.setUserName(name);
+        member.setAuthorities(ImmutableList.of("user"));
+        return member;
+    }
+
+    public static Member createManagerByUserName(String name){
+        Member member = new Member();
+        member.setUserName(name);
+        member.setAuthorities(ImmutableList.of("manager"));
+        return member;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public Member setNickName(String nickName) {
+        this.nickName = nickName;
+        return this;
+    }
+
+    public List<String> getAuthorities() {
+        return authorities;
+    }
+
+    public Member setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
+        return this;
     }
 
     public String getId() {
         return id;
     }
 
-    public Customer setId(String id) {
+    public Member setId(String id) {
         this.id = id;
         return this;
     }
@@ -62,7 +98,7 @@ public class Customer {
         return userName;
     }
 
-    public Customer setUserName(String userName) {
+    public Member setUserName(String userName) {
         this.userName = userName;
         return this;
     }
@@ -71,7 +107,7 @@ public class Customer {
         return password;
     }
 
-    public Customer setPassword(String password) {
+    public Member setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -80,7 +116,7 @@ public class Customer {
         return status;
     }
 
-    public Customer setStatus(Integer status) {
+    public Member setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -89,7 +125,7 @@ public class Customer {
         return createTime;
     }
 
-    public Customer setCreateTime(Date createTime) {
+    public Member setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -98,7 +134,7 @@ public class Customer {
         return updateTime;
     }
 
-    public Customer setUpdateTime(Date updateTime) {
+    public Member setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
         return this;
     }

@@ -1,8 +1,8 @@
 package com.cfd.member.service.impl;
 
 import com.cfd.member.mapper.CustomerRepository;
-import com.cfd.member.service.CustomerService;
-import com.cfd.pojo.mo.Customer;
+import com.cfd.member.service.MemberService;
+import com.cfd.pojo.mo.Member;
 import com.mongodb.client.result.UpdateResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,27 +24,28 @@ import java.util.Optional;
  * @date 2018/7/15 15:10
  */
 @Service
-public class CustomerServiceImpl implements CustomerService {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+public class MemberServiceImpl implements MemberService {
+    private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
     private MongoOperations mongoOperation;
 
     @Override
-    public List<Customer> queryAllByUserName(String name) {
-        return customerRepository.findAll(Example.of(Customer.createByUserName(name)));
+    public List<Member> queryAllByUserName(String name) {
+        return customerRepository.findAll(Example.of(Member.createUserByUserName(name)));
     }
 
 
     @Override
-    public Customer queryByUserName(String name) {
+    public Member queryByUserName(String name) {
         return customerRepository.findByUserName(name);
     }
 
     @Override
-    public Optional<Customer> queryById(String id) {
+    public Optional<Member> queryById(String id) {
         return customerRepository.findById(id);
     }
 
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
         Update update = new Update();
         update.set("status", 1);
         update.set("updateTime",new Date());
-        UpdateResult result = mongoOperation.updateFirst(query, update, Customer.class);
+        UpdateResult result = mongoOperation.updateFirst(query, update, Member.class);
         return result.getModifiedCount();
     }
 
@@ -73,12 +73,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean existsByUserName(String name){
-        return customerRepository.exists(Example.of(Customer.createByUserName(name)));
+        return customerRepository.exists(Example.of(Member.createUserByUserName(name)));
     }
 
     @Override
     public void enableById(String id) {
-        Optional<Customer> customer = customerRepository.findById(id);
+        Optional<Member> customer = customerRepository.findById(id);
         customer.ifPresent(customer1 -> {
             customer1.setStatus(0);
             customer1.setUpdateTime(new Date());
@@ -88,23 +88,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void enableByUserName(String name) {
-        List<Customer> customerList = queryAllByUserName(name);
-        if (customerList != null && customerList.size() != 0){
-            customerList.get(0).setStatus(0);
-            customerList.get(0).setUpdateTime(new Date());
-            customerRepository.save(customerList.get(0));
+        List<Member> memberList = queryAllByUserName(name);
+        if (memberList != null && memberList.size() != 0){
+            memberList.get(0).setStatus(0);
+            memberList.get(0).setUpdateTime(new Date());
+            customerRepository.save(memberList.get(0));
         }
     }
 
     @Override
-    public Customer insert(Customer customer) {
-        if (!existsByUserName(customer.getUserName())) {
-            customer.setCreateTime(new Date());
-            customer.setUpdateTime(new Date());
-            customer.setStatus(0);
-            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-            return customerRepository.insert(customer);
+    public Member insert(Member member) {
+        if (!existsByUserName(member.getUserName())) {
+            member.setCreateTime(new Date());
+            member.setUpdateTime(new Date());
+            member.setStatus(0);
+            member.setPassword(passwordEncoder.encode(member.getPassword()));
+            return customerRepository.insert(member);
         }
-        return customer;
+        return member;
     }
 }

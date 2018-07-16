@@ -56,6 +56,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>23.0</version>
+            </dependency>
             <!-- 将token存储在redis中 -->
             <!--<dependency>-->
                 <!--<groupId>org.springframework.boot</groupId>-->

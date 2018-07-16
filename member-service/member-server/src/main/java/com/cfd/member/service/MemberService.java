@@ -1,6 +1,6 @@
 package com.cfd.member.service;
 
-import com.cfd.pojo.mo.Customer;
+import com.cfd.pojo.mo.Member;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,13 +9,13 @@ import java.util.Optional;
  * @auth snifferhu
  * @date 2018/7/15 13:44
  */
-public interface CustomerService {
+public interface MemberService {
 
-    List<Customer> queryAllByUserName(String name);
+    List<Member> queryAllByUserName(String name);
 
-    Customer queryByUserName(String name);
+    Member queryByUserName(String name);
 
-    Optional<Customer> queryById(String id);
+    Optional<Member> queryById(String id);
 
     void deleteById(String id);
 
@@ -29,5 +29,5 @@ public interface CustomerService {
 
     void enableByUserName(String name);
 
-    Customer insert(Customer customer);
+    Member insert(Member member);
 }
