@@ -8,6 +8,7 @@ import com.cfd.pojo.vo.RegisterVo;
 import com.cfd.pojo.vo.ResultData;
 import com.cfd.util.ResultDataUtil;
 import com.cfd.web.MemberController;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class MemberControllerImpl implements MemberController {
     @PostMapping
     public ResultData register(@RequestBody RegisterVo vo) {
         logger.info("register {}", vo);
+        if (StringUtils.isBlank(vo.getUserName())){
+            return ResultDataUtil.paramsFail("userName");
+        }
+        if (StringUtils.isBlank(vo.getPassword())){
+            return ResultDataUtil.paramsFail("password");
+        }
         memberService.register(Member.createUserByRegisterVo(vo));
         return ResultDataUtil.success();
     }
