@@ -1,4 +1,4 @@
-package com.cfd.pojo.mo;
+package com.cfd.pojo.dto;
 
 /**
  * @auth snifferhu

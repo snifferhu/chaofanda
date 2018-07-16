@@ -2,7 +2,7 @@ package com.cfd.member.service.impl;
 
 import com.cfd.member.mapper.CustomerRepository;
 import com.cfd.member.service.MemberService;
-import com.cfd.pojo.mo.Member;
+import com.cfd.pojo.dto.Member;
 import com.mongodb.client.result.UpdateResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,18 +61,18 @@ public class MemberServiceImpl implements MemberService {
 
         Update update = new Update();
         update.set("status", 1);
-        update.set("updateTime",new Date());
+        update.set("updateTime", new Date());
         UpdateResult result = mongoOperation.updateFirst(query, update, Member.class);
         return result.getModifiedCount();
     }
 
     @Override
-    public boolean existsById(String id){
+    public boolean existsById(String id) {
         return customerRepository.existsById(id);
     }
 
     @Override
-    public boolean existsByUserName(String name){
+    public boolean existsByUserName(String name) {
         return customerRepository.exists(Example.of(Member.createUserByUserName(name)));
     }
 
@@ -87,17 +87,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void enableByUserName(String name) {
-        List<Member> memberList = queryAllByUserName(name);
-        if (memberList != null && memberList.size() != 0){
-            memberList.get(0).setStatus(0);
-            memberList.get(0).setUpdateTime(new Date());
-            customerRepository.save(memberList.get(0));
-        }
+    public long enableByUserName(String name) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(name));
+
+        Update update = new Update();
+        update.set("status", 0);
+        update.set("updateTime", new Date());
+        UpdateResult result = mongoOperation.updateFirst(query, update, Member.class);
+        return result.getModifiedCount();
     }
 
     @Override
-    public Member insert(Member member) {
+    public Member register(Member member) {
         if (!existsByUserName(member.getUserName())) {
             member.setCreateTime(new Date());
             member.setUpdateTime(new Date());
@@ -105,6 +107,36 @@ public class MemberServiceImpl implements MemberService {
             member.setPassword(passwordEncoder.encode(member.getPassword()));
             return customerRepository.insert(member);
         }
-        return member;
+        return queryByUserName(member.getUserName());
     }
+
+    @Override
+    public long updateStatusById(String id, Integer targetStatus) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+
+        Update update = new Update();
+        update.set("status", targetStatus);
+        update.set("updateTime", new Date());
+        UpdateResult result = mongoOperation.updateFirst(query, update, Member.class);
+        return result.getModifiedCount();
+    }
+
+    @Override
+    public long updateStatusByName(String name, Integer targetStatus) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(name));
+
+        Update update = new Update();
+        update.set("status", targetStatus);
+        update.set("updateTime", new Date());
+        UpdateResult result = mongoOperation.updateFirst(query, update, Member.class);
+        return result.getModifiedCount();
+    }
+
+    @Override
+    public void deleteByUserName(String name) {
+        customerRepository.delete(queryByUserName(name));
+    }
+
 }

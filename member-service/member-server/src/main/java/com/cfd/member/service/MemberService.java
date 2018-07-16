@@ -1,6 +1,6 @@
 package com.cfd.member.service;
 
-import com.cfd.pojo.mo.Member;
+import com.cfd.pojo.dto.Member;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +27,13 @@ public interface MemberService {
 
     void enableById(String id);
 
-    void enableByUserName(String name);
+    long enableByUserName(String name);
 
-    Member insert(Member member);
+    Member register(Member member);
+
+    long updateStatusById(String id, Integer targetStatus);
+
+    long updateStatusByName(String name, Integer targetStatus);
+
+    void deleteByUserName(String s);
 }

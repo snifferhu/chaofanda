@@ -1,8 +1,8 @@
 package com.cfd.cfg;
 
 import com.cfd.member.service.impl.MemberServiceImpl;
-import com.cfd.pojo.mo.Member;
-import com.cfd.pojo.mo.MongoUserDetails;
+import com.cfd.pojo.dto.Member;
+import com.cfd.pojo.vo.MongoUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

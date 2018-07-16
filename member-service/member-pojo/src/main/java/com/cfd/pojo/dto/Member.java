@@ -1,5 +1,6 @@
-package com.cfd.pojo.mo;
+package com.cfd.pojo.dto;
 
+import com.cfd.pojo.vo.RegisterVo;
 import com.google.common.collect.ImmutableList;
 import org.springframework.data.annotation.Id;
 
@@ -51,6 +52,13 @@ public class Member {
         this.status = other.status;
         this.createTime = other.createTime;
         this.updateTime = other.updateTime;
+    }
+
+    public static Member createUserByRegisterVo(RegisterVo vo) {
+        Member member = createUserByUserName(vo.getUserName());
+        member.setNickName(vo.getNickName());
+        member.setPassword(vo.getPassword());
+        return member;
     }
 
     public static Member createUserByUserName(String name){

@@ -10,7 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>member-pojo</module>
-        <module>member-api</module>
+        <module>member-web</module>
         <module>member-server</module>
     </modules>
 
@@ -61,6 +61,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.0</version>
             </dependency>
             <!-- 将token存储在redis中 -->
             <!--<dependency>-->

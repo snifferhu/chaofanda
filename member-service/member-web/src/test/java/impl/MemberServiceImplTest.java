@@ -1,4 +1,4 @@
-package com.cfd.member.service.impl;
+package impl;
 
 import com.cfd.member.service.MemberService;
 import com.cfd.pojo.dto.Member;

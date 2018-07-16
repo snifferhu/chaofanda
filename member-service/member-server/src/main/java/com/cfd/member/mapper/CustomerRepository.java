@@ -1,6 +1,6 @@
 package com.cfd.member.mapper;
 
-import com.cfd.pojo.mo.Member;
+import com.cfd.pojo.dto.Member;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
